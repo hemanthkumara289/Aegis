@@ -1,0 +1,35 @@
+server:
+  port: ${SERVER_PORT:8080}
+
+spring:
+  application:
+    name: aegis-backend
+  profiles:
+    active: local
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+      - org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+
+aegis:
+  security:
+    jwt:
+      secret: ${AEGIS_JWT_SECRET}
+      expiration-seconds: ${AEGIS_JWT_EXPIRATION_SECONDS:900}
+      refresh-token-expiration-days: ${AEGIS_REFRESH_TOKEN_EXPIRATION_DAYS:7}
+    otp:
+      hmac-secret: ${AEGIS_OTP_HMAC_SECRET}
+      ttl-minutes: ${AEGIS_OTP_TTL_MINUTES:10}
+      max-attempts: ${AEGIS_OTP_MAX_ATTEMPTS:5}
+    audit:
+      hmac-secret: ${AEGIS_AUDIT_HMAC_SECRET}
